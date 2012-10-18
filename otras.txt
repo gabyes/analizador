@@ -1,5 +1,0 @@
-{letra}{letra}+({digito}+|{simbolo})"@"{letra}+{simbolo}{letra}+{3}		{printf("CUMPLE.. \n");}
-{letra}{letra}+{simbolo}({digito}+|{letra}+)"@"{letra}+{simbolo}{letra}+{3}{simbolo}{letra}{3}	{printf("CUMPLE.. \n");} 
-
-^({Calle}|"C"|{Avenida}|"av"|{Barrio}|"b")({digito}|{letra})+{letra}+{letras}*({letra},{letras}*)*$		{printf("CUMPLE.1... \n");
-^{letra}{letra}+{simbolo}{digito}+"@"{dominio}+{simbolo}{letra}+{3}$		{printf("CUMPLE.2.... \n");}
