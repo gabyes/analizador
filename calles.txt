@@ -1,0 +1,34 @@
+%{
+#include <stdio.h>
+#include <conio.h>
+int num_lineas = 0, num_caracteres = 0;
+%}
+%option noyywrap
+%option yylineno
+letra [a-zA-Z]
+digito [0-9]
+simbolo :
+ignora " "|\t|\n
+
+%%
+^("Calle"|"c"|"Avenida"|"Av"|"Barrio"|"b"){simbolo}{ignora}(({digito}+|{letra}+)|(({digito}+|{letra}+){ignora}{letra}+)|(({digito}+|{letra}+){ignora}{letra}+{ignora}{letra}+))$		{printf("DIRECCION VALIDA  \n");}
+\n			++num_lineas;
+
+%%
+int main(int argc,char *argv[])
+{
+    char NomArch[30];
+    printf("Ingrese nombre de archivo: ");
+    gets(NomArch);
+    if ((yyin = fopen(NomArch, "rt")) == NULL)
+    {
+        printf("\nNo se puede abrir el archivo: %s\n", NomArch);
+    }
+    else
+    {
+        yylex();
+    }
+    fclose(yyin);
+    getch();
+    return 0;
+}

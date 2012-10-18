@@ -1,0 +1,37 @@
+%{
+#include <stdio.h>
+#include <conio.h>
+int num_lineas = 0, num_caracteres = 0;
+%}
+%option noyywrap
+%option yylineno
+letra [a-z]
+digito [0-9]
+simbolo .|_|-
+ignora " "|\t|\n|	
+servicio hotmail|yahoo|gmail
+dom com|es|net
+
+%%
+^{letra}{letra}+({simbolo}|{digito}+)({letra}+|{simbolo})"@"{servicio}+{simbolo}{dom}$		{printf("CORREO VALIDO. \n");}
+^{letra}{letra}+{simbolo}{digito}+"@"{letra}+{simbolo}{letra}+{3}{simbolo}{letra}{2,3}$	{printf("CORREO VALIDO 2.... \n");} 
+^{digito}{letra}+{simbolo}{digito}+"@"({servicio}|!{servicio}){simbolo}({dom}|!{dom})$		{printf(" CORREO NO VALIDO \n");}
+
+%%
+int main(int argc,char *argv[])
+{
+    char NomArch[30];
+    printf("Ingrese nombre de archivo: ");
+    gets(NomArch);
+    if ((yyin = fopen(NomArch, "rt")) == NULL)
+    {
+        printf("\nNo se puede abrir el archivo: %s\n", NomArch);
+    }
+    else
+    {
+        yylex();
+    }
+    fclose(yyin);
+    getch();
+    return 0;
+}

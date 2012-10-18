@@ -1,0 +1,62 @@
+%{
+#include <stdio.h>
+#include <conio.h>
+int num_lineas = 0, num_caracteres = 0;
+%}
+%option noyywrap
+%option yylineno
+letra [a-zA-Z]
+digito [0-9]
+binario [0-1]
+ignora " "|\t|\n
+operarit *|+|-|/
+operlog &|$
+comparador <|>|<=|>=|==|!=
+%%
+{ignora}+                   {;}
+{letra}({letra}|{digito})*  {printf("IDENTIFICADOR\n");}
+{letra}+                    {printf("CADENA\n");}
+{binario}+                  {printf("BOOLEANO\n");} 
+{digito}+                   {printf("ENTERO\n");}
+{digito}+"."{digito}+       {printf("REAL\n");}
+{comparador}                {printf("COMPARADOR\n");}
+":="                        {printf("ASIGNADOR\n");}
+";"                         {printf("PUNTO_COMA\n");}
+"!="                        {printf("DIFERENCIA\n");}
+","                         {printf("COMA\n");}
+"=="                        {printf("IGUAL\n");}
+"."                         {printf("PUNTO\n");}
+">="                     {printf("MAYOR_IGUAL\n");}
+"<="                     {printf("MENOR_IGUAL\n");}
+"("                         {printf("OPEN_PARENTESIS\n");}
+")"                         {printf("CLOSE_PARENTESIS\n");}
+">"                      {printf("MAYOR\n");}
+"<"                      {printf("MENOR\n");}
+"{"                         {printf("OPEN_LLAVE\n");}
+"}"                         {printf("CLOASE_LLAVE\n");}
+"+"                         {printf("SUMA\n");}
+"-"                         {printf("RESTA\n");}
+"*"                         {printf("MUTIPLICACION\n");}
+"/"                         {printf("DIVISION\n");}
+"&"                         {printf("AND\n");}
+"$"                         {printf("OR\n");}
+\n                          ++num_lineas;
+.                           {printf("ERROR LEXICO EN LINEA %d \n",yylineno);}
+%%
+int main(int argc,char *argv[])
+{
+    char NomArch[30];
+    printf("Ingrese nombre de archivo: ");
+    gets(NomArch);
+    if ((yyin = fopen(NomArch, "rt")) == NULL)
+    {
+        printf("\nNo se puede abrir el archivo: %s\n", NomArch);
+    }
+    else
+    {
+        yylex();
+    }
+    fclose(yyin);
+    getch();
+    return 0;
+}

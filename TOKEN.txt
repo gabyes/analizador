@@ -1,0 +1,22 @@
+%{
+#include <stdio.h>
+#define TOK_BEGIN 1
+#define TOK_END 2
+%}
+%option noyywrap
+%%
+begin { return TOK_BEGIN; }
+end { return TOK_END; }
+%%
+int main()
+{
+int token;
+while (1)
+{
+token = yylex();
+if (token == TOK_BEGIN)  printf(“reconocido-begin-\n”); 
+if (token == TOK_END)   printf(“reconocido-end-\n”);
+if (token == 0)  break; 
+}
+return 0;
+}
